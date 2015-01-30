@@ -101,15 +101,16 @@ class CuraApp(wx.App):
 
 	def afterSplashCallback(self):
 		#These imports take most of the time and thus should be done after showing the splashscreen
+		from Cura.util import resources
+		from Cura.util import profile
+		resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install _
+
 		import webbrowser
 		from Cura.gui import mainWindow
 		from Cura.gui import configWizard
 		from Cura.gui import newVersionDialog
-		from Cura.util import profile
-		from Cura.util import resources
 		from Cura.util import version
 
-		resources.setupLocalization(profile.getPreference('language'))  # it's important to set up localization at very beginning to install _
 
 		#If we do not have preferences yet, try to load it from a previous Cura install
 		if profile.getMachineSetting('machine_type') == 'unknown':
