@@ -1,0 +1,4 @@
+from lulzbotMini import lulzbot_mini_settings
+from lulzbotTAZ import lulzbot_taz_settings
+from lulzbotTAZ5 import lulzbot_taz5_settings
+from default import default_settings
