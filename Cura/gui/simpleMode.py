@@ -123,20 +123,24 @@ class simpleModePanel(wx.Panel):
 
 		profile.putProfileSetting('simpleModeSettings', pickle.dumps(settings))
 
-	def setupSlice(self):
+	def setupSlice(self, permanent=False):
 		self.saveSettings()
+
+		if permanent:
+			setSetting = profile.putProfileSetting
+		else:
+			setSetting = profile.setTempOverride
 
 		# Reset everything to default
 		for setting in profile.settingsList:
 			if not setting.isProfile():
 				continue
-			profile.setTempOverride(setting.getName(), setting.getDefault())
+			setSetting(setting.getName(), setting.getDefault())
 
 		# Then set temporary override with the simple settings
 		settings = SimpleModeSettings.getSimpleSettings(self)
 		for setting in settings:
-			profile.setTempOverride(setting[0], setting[1])
-
+			setSetting(setting[0], setting[1])
 
 	def updateProfileToControls(self):
 		pass

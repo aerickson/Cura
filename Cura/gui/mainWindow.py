@@ -171,6 +171,12 @@ class mainWindow(wx.Frame):
 		i = expertMenu.Append(-1, _("Switch to full settings..."), kind=wx.ITEM_RADIO)
 		self.switchToNormalMenuItem = i
 		self.Bind(wx.EVT_MENU, self.OnNormalSwitch, i)
+
+		i = expertMenu.Append(-1, _("Copy quickprint settings to full settings..."), kind=wx.ITEM_CHECK)
+		self.copyQuickprintMenuItem = i
+		self.Bind(wx.EVT_MENU, self.OnCopyQuickprint, i)
+		if profile.getPreference('copyQuickprint') == 'True':
+			self.copyQuickprintMenuItem.Check(True)
 		expertMenu.AppendSeparator()
 
 		i = expertMenu.Append(-1, _("Open expert settings...\tCTRL+E"))
@@ -539,7 +545,13 @@ class mainWindow(wx.Frame):
 
 	def OnNormalSwitch(self, e):
 		profile.putPreference('startMode', 'Normal')
+		if profile.getPreference('copyQuickprint') == 'True':
+			self.simpleSettingsPanel.setupSlice(True)
+			self.updateProfileToAllControls()
 		self.updateSliceMode()
+
+	def OnCopyQuickprint(self, e):
+		profile.putPreference('copyQuickprint', self.copyQuickprintMenuItem.IsChecked())
 
 	def OnDefaultMarlinFirmware(self, e):
 		firmwareInstall.InstallFirmware(self)
