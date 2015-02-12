@@ -114,16 +114,16 @@ class simpleModePanel(wx.Panel):
 	def setupSlice(self):
 		self.saveSettings()
 
-		put = profile.setTempOverride
-		get = profile.getProfileSetting
+		# Reset everything to default
 		for setting in profile.settingsList:
 			if not setting.isProfile():
 				continue
 			profile.setTempOverride(setting.getName(), setting.getDefault())
 
+		# Then set temporary override with the simple settings
 		settings = SimpleModeSettings.getSimpleSettings(self)
 		for setting in settings:
-			put(setting[0], setting[1])
+			profile.setTempOverride(setting[0], setting[1])
 
 
 	def updateProfileToControls(self):
